@@ -1,0 +1,47 @@
+name: Sin & Sonnet daily post
+
+on:
+  schedule:
+    # About 7:15pm Eastern (romance readers scroll in the evening).
+    # GitHub runs on UTC time, so there are lines for winter (EST) and summer (EDT);
+    # the program only posts in the 7pm hour, or in the 8pm hour as a retry.
+    - cron: "15 23 * * *"
+    - cron: "15 0 * * *"
+    - cron: "15 1 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check = test the key only (posts nothing). force = post the next approved item now."
+        type: choice
+        options: [check, force]
+        default: check
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sinandsonnet-post
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Post to Instagram and Facebook
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+        run: python post.py "${{ github.event.inputs.mode || 'post' }}"
+
+      - name: Save the line-up and log
+        if: always()
+        run: |
+          git config user.name "Sin & Sonnet Poster"
+          git config user.email "actions@users.noreply.github.com"
+          git add queue.json posted-log.md
+          git diff --cached --quiet || (git commit -m "Posted to Instagram/Facebook" && git push)
