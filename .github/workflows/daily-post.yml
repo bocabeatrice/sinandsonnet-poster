@@ -2,14 +2,22 @@ name: Sin & Sonnet daily post
 
 on:
   schedule:
-    # About 7:15pm Eastern (romance readers scroll in the evening).
-    # GitHub runs on UTC time, so there are lines for winter (EST) and summer (EDT);
-    # the program posts between 7pm and 10:59pm; later wake-ups retry if GitHub ran late.
+    # Two windows a day. An item's "slot" in queue.json decides which one it uses;
+    # no slot means evening, so older entries behave exactly as before.
+    # GitHub runs on UTC, so each window has lines for winter (EST) and summer (EDT),
+    # and later wake-ups retry if GitHub started a run late.
+    #
+    # Evening, about 7:15pm Eastern — the daily main post (posts 7pm-10:59pm).
     - cron: "15 23 * * *"
     - cron: "15 0 * * *"
     - cron: "15 1 * * *"
     - cron: "15 2 * * *"
     - cron: "15 3 * * *"
+    # Midday, about 12:15pm Eastern — the book-talk posts (posts 12pm-2:59pm).
+    - cron: "15 16 * * *"
+    - cron: "15 17 * * *"
+    - cron: "15 18 * * *"
+    - cron: "15 19 * * *"
   workflow_dispatch:
     inputs:
       mode:

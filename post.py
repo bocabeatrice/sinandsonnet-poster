@@ -35,7 +35,13 @@ GRAPH = f"https://graph.facebook.com/{VERSION}"
 QUEUE_FILE = "queue.json"
 LOG_FILE = "posted-log.md"
 EASTERN = ZoneInfo("America/New_York")
-POST_HOURS = (19, 20, 21, 22)  # evening window; GitHub often starts runs up to an hour late, later wake-ups retry
+# Two posting windows. An item's "slot" picks one; anything without a slot goes in the
+# evening, so older queue entries keep behaving exactly as before.
+# GitHub often starts scheduled runs up to an hour late, so each window is wide and the
+# later wake-ups retry.
+POST_HOURS = (19, 20, 21, 22)          # evening: the daily main post
+MIDDAY_HOURS = (12, 13, 14)            # midday: the book-talk posts (Tue/Thu/Sat)
+SLOT_HOURS = {"evening": POST_HOURS, "midday": MIDDAY_HOURS}
 IG_USERNAME = "sinandsonnet"
 REPO = os.environ.get("GITHUB_REPOSITORY", "bocabeatrice/sinandsonnet-poster")
 BRANCH = os.environ.get("GITHUB_REF_NAME", "main")
@@ -246,7 +252,13 @@ def main():
     items = queue["items"]
     today = now.date().isoformat()
 
-    if mode == "post" and now.hour not in POST_HOURS:
+    def slot_of(i):
+        return i.get("slot", "evening")
+
+    def in_window(i):
+        return now.hour in SLOT_HOURS.get(slot_of(i), POST_HOURS)
+
+    if mode == "post" and now.hour not in (POST_HOURS + MIDDAY_HOURS):
         print(f"It's {now:%H:%M} Eastern, not posting time. Nothing to do.")
         return
 
@@ -259,12 +271,20 @@ def main():
     else:
         from datetime import timedelta
         yesterday = (now.date() - timedelta(days=1)).isoformat()
-        # Only today's (or a missed yesterday's) items. Anything older is skipped so nothing
-        # she already posted by hand gets posted twice.
-        due = [i for i in items if pending(i) and yesterday <= i.get("post_on", "9999") <= today]
+        # Only today's (or a missed yesterday's) items, and only in that item's own
+        # window. Anything older is skipped so nothing she already posted by hand
+        # gets posted twice.
+        due = [i for i in items if pending(i)
+               and yesterday <= i.get("post_on", "9999") <= today
+               and in_window(i)]
         old = [i["id"] for i in items if pending(i) and i.get("post_on", "9999") < yesterday]
         if old:
             print("::warning::Skipped old items (more than a day late): " + ", ".join(old))
+        waiting = [i["id"] for i in items if pending(i)
+                   and yesterday <= i.get("post_on", "9999") <= today
+                   and not in_window(i)]
+        if waiting:
+            print("Waiting for their own posting window: " + ", ".join(waiting))
     if not due:
         print("Nothing approved is due. Ask Claude for the next line-up.")
         return
