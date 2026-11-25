@@ -37,7 +37,12 @@
         "media/w1-2.png"
       ],
       "caption": "",
-      "ai_generated": false
+      "ai_generated": false,
+      "results": {
+        "instagram": "story 17914748031483703",
+        "facebook": "story 1803481878445269"
+      },
+      "posted_at": "2026-11-24T20:23-05:00"
     },
     {
       "id": "w1-3",
