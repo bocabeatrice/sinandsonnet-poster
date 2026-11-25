@@ -18,8 +18,7 @@ P['c4'] = ('ink', FEED, ital('Then it called<br>the crows.', 'ink', 104), {})
 P['c5'] = ('ivory', FEED, kicker('and still', 'ivory') + head('Six stars.', 'ivory', 104)
            + rule() + ital('I would hand it<br>to you anyway.', 'ivory', 76), {})
 P['c6'] = ('bur', FEED, kicker('for books like this one', 'bur')
-           + ital('Don\'t handle<br>with care.', 'bur', 104)
-           + rule() + small('on the back · sin & sonnet', 'bur', 28), {})
+           + ital('Don\'t handle<br>with care.', 'bur', 104) + rule(), {})
 
 if __name__ == '__main__':
     build(P, outdir=OUT)
