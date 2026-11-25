@@ -4,10 +4,12 @@ on:
   schedule:
     # About 7:15pm Eastern (romance readers scroll in the evening).
     # GitHub runs on UTC time, so there are lines for winter (EST) and summer (EDT);
-    # the program only posts in the 7pm hour, or in the 8pm hour as a retry.
+    # the program posts between 7pm and 10:59pm; later wake-ups retry if GitHub ran late.
     - cron: "15 23 * * *"
     - cron: "15 0 * * *"
     - cron: "15 1 * * *"
+    - cron: "15 2 * * *"
+    - cron: "15 3 * * *"
   workflow_dispatch:
     inputs:
       mode:

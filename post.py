@@ -35,7 +35,7 @@ GRAPH = f"https://graph.facebook.com/{VERSION}"
 QUEUE_FILE = "queue.json"
 LOG_FILE = "posted-log.md"
 EASTERN = ZoneInfo("America/New_York")
-POST_HOURS = (19, 20)  # ~7:15pm Eastern; the 8pm wake-up retries if the first one failed
+POST_HOURS = (19, 20, 21, 22)  # evening window; GitHub often starts runs up to an hour late, later wake-ups retry
 IG_USERNAME = "sinandsonnet"
 REPO = os.environ.get("GITHUB_REPOSITORY", "bocabeatrice/sinandsonnet-poster")
 BRANCH = os.environ.get("GITHUB_REF_NAME", "main")
@@ -257,7 +257,14 @@ def main():
     if mode == "force":
         due = [i for i in items if pending(i)][:1]
     else:
-        due = [i for i in items if pending(i) and i.get("post_on", "9999") <= today]
+        from datetime import timedelta
+        yesterday = (now.date() - timedelta(days=1)).isoformat()
+        # Only today's (or a missed yesterday's) items. Anything older is skipped so nothing
+        # she already posted by hand gets posted twice.
+        due = [i for i in items if pending(i) and yesterday <= i.get("post_on", "9999") <= today]
+        old = [i["id"] for i in items if pending(i) and i.get("post_on", "9999") < yesterday]
+        if old:
+            print("::warning::Skipped old items (more than a day late): " + ", ".join(old))
     if not due:
         print("Nothing approved is due. Ask Claude for the next line-up.")
         return
