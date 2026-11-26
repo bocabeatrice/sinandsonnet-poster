@@ -55,14 +55,25 @@ single image. Keep the numbers in posting order across the week.
 
 ## Rules that don't change
 
+- **NEVER put product-spec copy on a slide.** No "slogan on the back", no "our
+  name small on the front", no "on the back · sin & sonnet", no wording that
+  explains where the printing sits or what the garment is. A post is not a
+  product listing; spec details belong on the Shopify or Etsy page. Let the
+  slogan land on its own — `foot()` already carries the wordmark and handle.
+  If a teaser needs a closing line, "coming soon" is enough. Sharon's rule,
+  Nov 25, after it slipped into three posts.
 - Logo lockup, `@sinandsonnet`, and the gold hairline sit at the bottom of every
   post — that's what `foot()` does automatically. Leave it on.
 - Burgundy `&` always larger than SIN and SONNET.
 - Tagline is *well read · barely behaved* — lowercase, middle dot, never a hyphen.
 - No script or handwritten fonts, no Bodoni. See the Brand Bible for the
   rejected list.
-- Slogans live on the **back** of garments; fronts get the small monogram. The
-  mock-ups here are social posts, not garment art — don't mix the two up.
+- Slogans live on the **back** of garments; fronts get the small monogram. That
+  is a production fact for Printful — never something a post says out loud.
+  The mock-ups here are social posts, not garment art; don't mix the two up.
+- **Editing a queued post means editing every copy of it:** the feed PNG in
+  `media/`, the TikTok PNG in `tiktok/week<n>/`, and the caption in
+  `queue.json`. Change one and the others go out wrong.
 
 **Don't restyle the template.** Colours, fonts and layout are the brand. If a
 week needs a format this template can't do, build it and flag it to Sharon
