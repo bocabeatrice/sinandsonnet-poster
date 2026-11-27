@@ -8,3 +8,5 @@
 | 2026-11-24 08:23 PM | w1-2 | story | facebook | story 1803481878445269 |
 | 2026-11-25 08:23 PM | w1-3 | feed | instagram | https://www.instagram.com/p/DgL6t9Vlw47/ |
 | 2026-11-25 08:23 PM | w1-3 | feed | facebook | https://www.facebook.com/1469142469611452_122102932815557949 |
+| 2026-11-26 07:01 PM | w1-4 | feed | instagram | https://www.instagram.com/p/DgOWHBYIegi/ |
+| 2026-11-26 07:01 PM | w1-4 | feed | facebook | https://www.facebook.com/1469142469611452_122103903081557949 |
