@@ -10,3 +10,5 @@
 | 2026-11-25 08:23 PM | w1-3 | feed | facebook | https://www.facebook.com/1469142469611452_122102932815557949 |
 | 2026-11-26 07:01 PM | w1-4 | feed | instagram | https://www.instagram.com/p/DgOWHBYIegi/ |
 | 2026-11-26 07:01 PM | w1-4 | feed | facebook | https://www.facebook.com/1469142469611452_122103903081557949 |
+| 2026-11-27 08:22 PM | w1-5 | story | instagram | story 17958197736038348 |
+| 2026-11-27 08:22 PM | w1-5 | story | facebook | story 2620437621758127 |
